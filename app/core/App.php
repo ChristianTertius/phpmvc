@@ -1,10 +1,11 @@
-<?php
-
+<?php 
+  
 class App
 {
   protected $controller = 'Home';
   protected $method = 'index';
   protected $params = [];
+
   public function __construct()
   {
     /* 
@@ -14,7 +15,8 @@ class App
     */
 
     $url = $this->parseURL();
-    if (file_exists('../app/controllers/' . $url[0] . '.php')) {
+    
+    if ($url && file_exists('../app/controllers/' . $url[0] . '.php')) {
       $this->controller = $url[0];
       unset($url[0]);
     }
@@ -33,11 +35,11 @@ class App
 
     // params
     if (!empty($url)) {
-      $this->params = array_values($url); // ambil nilai paramas
+      $this->params = array_values($url); // ambil nilai params
     }
 
     // jlnkn controller & method, serta kirimkan params jk ada
-    call_user_func_array([$this->controller, $this->method], $this->params); // jlnkn controller, dan method, serta send uparams;
+    call_user_func_array([$this->controller, $this->method], $this->params); // jlnkn controller, dan method, serta send params;
   }
 
   // mengambil url, di .htaccess juga
@@ -49,5 +51,6 @@ class App
       $url = explode('/', $url);
       return $url;
     }
+    return null; // Return null if 'url' parameter is not set
   }
 }
